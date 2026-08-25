@@ -8,7 +8,7 @@ const SEED_PRODUCTS = [
   { name: 'Woolworths Macro Oat Bar - Honey Almond', price: 4.8, servePerPack: 5, cal: 155, protein: 4.0, sugar: 8.0, fibre: 4.2, sodium: 45, stars: 4.5, ingredients: 'oats, honey, almonds, sunflower oil' },
 ]
 
-const EMPTY_FORM = { name: '', price: '', cal: '', protein: '', sugar: '', fibre: '', sodium: '', stars: '', ingredients: '' }
+const EMPTY_FORM = { name: '', price: '', servesPerPack: '', cal: '', protein: '', sugar: '', fibre: '', sodium: '', stars: '', ingredients: '' }
 
 export default function App() {
   const [products, setProducts] = useState(SEED_PRODUCTS)
@@ -38,7 +38,7 @@ export default function App() {
 
   async function handleAddProduct(e) {
     e.preventDefault()
-    const required = ['name', 'price', 'cal', 'protein', 'sugar', 'fibre', 'sodium', 'stars', 'ingredients']
+    const required = ['name', 'price', 'servesPerPack', 'cal', 'protein', 'sugar', 'fibre', 'sodium', 'stars', 'ingredients']
     if (required.some(field => !form[field])) {
       setError('Fill in every field first.')
       return
@@ -48,7 +48,7 @@ export default function App() {
     const newProduct = {
       name: form.name,
       price: parseFloat(form.price),
-      serve_per_pack: 1,
+      serve_per_pack: parseFloat(form.servesPerPack),
       cal: parseFloat(form.cal),
       protein: parseFloat(form.protein),
       sugar: parseFloat(form.sugar),
@@ -114,7 +114,8 @@ export default function App() {
         <summary>Add a new product</summary>
         <form onSubmit={handleAddProduct} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 12 }}>
           <input placeholder="Product name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-          <input placeholder="Price ($)" type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
+          <input placeholder="Pack price ($)" type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
+          <input placeholder="Serves per pack (check the label)" type="number" step="1" value={form.servesPerPack} onChange={e => setForm({ ...form, servesPerPack: e.target.value })} />
           <input placeholder="Calories per serve" type="number" value={form.cal} onChange={e => setForm({ ...form, cal: e.target.value })} />
           <input placeholder="Protein (g)" type="number" step="0.1" value={form.protein} onChange={e => setForm({ ...form, protein: e.target.value })} />
           <input placeholder="Sugar (g)" type="number" step="0.1" value={form.sugar} onChange={e => setForm({ ...form, sugar: e.target.value })} />
